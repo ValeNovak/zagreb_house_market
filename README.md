@@ -6,7 +6,7 @@ This is my project where I aim to demonstrate what I have learned so far and con
 
 In this project, I extracted data from a structured database where records were stored in tables with the format described below. 
 
-![examplepic](./img\ex1.png)
+![examplepic](https://github.com/ValeNovak/zagreb_house_market/blob/main/img/ex1.png)
 
 
 The database also includes an additional table that is linked via a foreign key to the attribute_type column. This table stores the names of the attributes and their respective types, which help to identify what each attribute represents. The reason for implementing this structure is that the previous table cannot store different data types in the same columns, and this separation ensures that the data is correctly categorized and structured.
