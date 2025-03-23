@@ -6,15 +6,16 @@ load_dotenv()
 
 
 
-def leno_baza(cursor_factory_param=None): # connecting to the database leno_baza via the psycopg library
+def origin_db(cursor_factory_param=None): # connecting to the database origin_db via the psycopg library
     conn = psycopg2.connect(f'host={os.getenv("SECRET_HOST")} port={os.getenv("SECRET_PORT")} user={os.getenv("SECRET_USER")} password={os.getenv("SECRET_PASS")} dbname={os.getenv("DBNAME")}')
     if cursor_factory_param == None:
         return conn.cursor()
     else:
         return conn.cursor(cursor_factory=cursor_factory_param)
+    
 
 
-def vale_baza(cursor_factory_param=None): # connecting my database leno_baza via the psycopg library
+def dest_db(cursor_factory_param=None): # connecting my database dest_db via the psycopg library
     con = psycopg2.connect(f'host={os.getenv("my_host")} port={os.getenv("my_port")} user={os.getenv("my_user")} password={os.getenv("my_password")} dbname={os.getenv("my_dbname")}')
     if cursor_factory_param == None:
         return con.cursor()
@@ -23,7 +24,7 @@ def vale_baza(cursor_factory_param=None): # connecting my database leno_baza via
 
 
 
-def update_insert_vale_base(qu): # This function executes an update or insert query on the database and commits the changes
+def update_insert_into_dest_base(qu): # This function executes an update or insert query on the database and commits the changes
     con = psycopg2.connect(f'host={os.getenv("my_host")} port={os.getenv("my_port")} user={os.getenv("my_user")} password={os.getenv("my_password")} dbname={os.getenv("my_dbname")}')
     cur = con.cursor()
     cur.execute(qu)
@@ -34,7 +35,7 @@ def update_insert_vale_base(qu): # This function executes an update or insert qu
 
 
 
-def get_lates_data_by_city (fromwhichbase,city_name): # The function retrieves the latest data from the specified database, filtering results based on the selected city.
+def get_latest_data_by_city (fromwhichbase,city_name): # The function retrieves the latest data from the specified database, filtering results based on the selected city.
     city_pattern = "%" + city_name + "%" # Prepares a pattern for SQL LIKE search (matches anywhere in the text)
 
     fromwhichbase.execute("select distinct njuskalo_id, author from njuskalo_home_crawled_data_attrributes where value_text like %s", (city_pattern,))
@@ -55,9 +56,6 @@ def get_lates_data_by_city (fromwhichbase,city_name): # The function retrieves t
 
 
 
-
-
-
 from datetime import datetime
 
 def track_price_update(row, existrow):
@@ -70,20 +68,16 @@ def track_price_update(row, existrow):
         INSERT INTO update_price (njuskalo_id, author, old_cijena, new_cijena, datum_promjene)
         VALUES ({row['njuskalo_id']}, '{row["author"]}', {old_price}, {new_price}, '{today}')
         '''
-        update_insert_vale_base(insert_query)
+        update_insert_into_dest_base(insert_query)
 
         print(f"Price change recorded for ID {row['njuskalo_id']} on {today}: Old Price = {old_price}, New Price = {new_price}")
 
 
 
 
+def update_insert_table_with_latest_data(getlatestdatafunc,towhichbase,fromwhichbase):  # Loop through the latest data to insert or update
 
-
-
-
-def update_insert_table_with_lates_data(getlatesdatafunc,towhichbase,fromwhichbase):  # Loop through the latest data to insert or update
-
-    for row in getlatesdatafunc: # Check if the record already exists in the target table
+    for row in getlatestdatafunc: # Check if the record already exists in the target table
         towhichbase.execute("SELECT * FROM zagreb_app WHERE njuskalo_id=%s AND author=%s", (row['njuskalo_id'], row['author']))
         existrow = towhichbase.fetchone() # Check if the record already exists in the target table
         
@@ -127,7 +121,7 @@ def update_insert_table_with_lates_data(getlatesdatafunc,towhichbase,fromwhichba
                         
                             if setvalues: # Execute the update query if a value was set
                                 query = f"UPDATE zagreb_app SET {setvalues} WHERE njuskalo_id = {row['njuskalo_id']} AND author = '{row['author']}'"
-                                update_insert_vale_base(query)
+                                update_insert_into_dest_base(query)
 
             track_price_update(row, existrow)
                                 
@@ -185,7 +179,7 @@ def update_insert_table_with_lates_data(getlatesdatafunc,towhichbase,fromwhichba
             {row["Stambena povrsina"]}, {row["Tip stana"]})'''
                 
             print('INSERT made for ID: ', row['njuskalo_id'])
-            update_insert_vale_base(insert) # Execute the insert query
+            update_insert_into_dest_base(insert) # Execute the insert query
 
 
 

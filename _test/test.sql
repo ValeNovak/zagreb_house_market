@@ -8,6 +8,9 @@ select * from zagreb_app where njuskalo_id = 46470597
 
 select * from njuskalo_attributes
 
+select count(njuskalo_id) 
+from zagreb_app
+
 
 
 
