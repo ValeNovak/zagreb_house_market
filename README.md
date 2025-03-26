@@ -69,6 +69,10 @@ This approach allows for efficient data transfer and ensures that the destinatio
 
 All the functions that I have done you can see in my script: [Link to my script](C:\Users\Valentina\Desktop\Škola\baza_njuskalo\func\my_library_function.py)
 
+## MY REPORTS
+
+In the new folder called [generate_report](C:\Users\Valentina\Desktop\Škola\baza_njuskalo\generate_report) I started generating daily reports based on apartment data in Zagreb. The goal is to create a table with data that interests me, which would be generated daily so I can track changes in the data, such as the median apartment prices per square meter, the number of ads posted by agencies, the number of ads posted by private users, and so on. I am currently testing it in Jupyter Notebook using the pandas library. The goal with this data is to later perform analyses and eventually include it in Power BI for more advanced insights.
+
 
 # CONCLUSION
 
