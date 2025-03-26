@@ -4,7 +4,7 @@ add column Naslov text
 
 
 
-select * from zagreb_app where njuskalo_id = 46470597
+  where njuskalo_id = 46470597
 
 select * from njuskalo_attributes
 
@@ -77,7 +77,7 @@ group by njuskalo_id, author, old_cijena, new_cijena
 select njuskalo_id, author, datum_promjene
 from update_price
 
-
+delete from update_price
 
 DELETE FROM update_price a
 USING update_price b

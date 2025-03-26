@@ -85,10 +85,10 @@ def update_insert_table_with_latest_data(getlatestdatafunc,towhichbase,fromwhich
             for key, value in row.items():
                 if key != 'njuskalo_id':
                     if key != 'author':      # If value has changed, update it in the target table
+                        
                         if existrow[key] != value:
 
                             print("UPDATE made by : ", row['njuskalo_id'], key, value, existrow[key])
-
 
                             fromwhichbase.execute(f"select value_type from njuskalo_attributes where name='{key}'") # Fetch value type for the column from the source database
                             value_type = fromwhichbase.fetchone()['value_type']
@@ -115,6 +115,7 @@ def update_insert_table_with_latest_data(getlatestdatafunc,towhichbase,fromwhich
                                 if value == None:
                                     row[key] = 'NULL'
                                 else:
+                                    
                                     setvalues=f"\"{key}\"='{value}'"
                             else:
                                 setvalues='Null'
@@ -122,7 +123,7 @@ def update_insert_table_with_latest_data(getlatestdatafunc,towhichbase,fromwhich
                             if setvalues: # Execute the update query if a value was set
                                 query = f"UPDATE zagreb_app SET {setvalues} WHERE njuskalo_id = {row['njuskalo_id']} AND author = '{row['author']}'"
                                 update_insert_into_dest_base(query)
-
+        
             track_price_update(row, existrow)
                                 
         else:   # If record doesn't exist, insert a new row into the target table
@@ -180,7 +181,6 @@ def update_insert_table_with_latest_data(getlatestdatafunc,towhichbase,fromwhich
                 
             print('INSERT made for ID: ', row['njuskalo_id'])
             update_insert_into_dest_base(insert) # Execute the insert query
-
 
 
 
