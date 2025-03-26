@@ -67,7 +67,7 @@ In addition, I created a function to track the price changes of properties. This
 
 This approach allows for efficient data transfer and ensures that the destination table is always up-to-date with the latest property listings.
 
-All the functions that I have done you can see in my script: [Link to my script](C:\Users\Valentina\Desktop\Škola\baza_njuskalo\func\my_library_function.py)
+All the functions that I have done you can see in my script. [Link to my script](func\my_library_function.py)
 
 ## MY REPORTS
 
