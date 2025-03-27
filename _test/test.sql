@@ -57,6 +57,9 @@ VALUES (
     'U stambenoj zgradi'
 );
 
+
+-- creating and training for update_price table
+
 CREATE TABLE if not EXISTS update_price(id serial PRIMARY KEY,
                                         njuskalo_id BIGINT NOT NULL, 
                                         "author" text, 
@@ -73,6 +76,8 @@ from update_price
 select * from update_price
 
 
+
+
 select count(njuskalo_id), njuskalo_id, author, old_cijena, new_cijena
 from update_price
 group by njuskalo_id, author, old_cijena, new_cijena
@@ -82,23 +87,26 @@ from update_price
 
 delete from update_price
 
-DELETE FROM update_price a
-USING update_price b
-WHERE a.id > b.id
-AND a.njuskalo_id = b.njuskalo_id
-AND a.author = b.author
-AND a.datum_promjene = b.datum_promjene;
+
+select u.njuskalo_id, u.author, u.old_cijena, u.new_cijena, z."Stambena povrsina", old_cijena-new_cijena as razlika
+from update_price u
+join zagreb_app z on u.njuskalo_id = z.njuskalo_id
+where old_cijena < new_cijena and "Stambena povrsina" > 45.0
 
 
-WITH sorted AS (
-    SELECT id, ROW_NUMBER() OVER (ORDER BY id) AS new_id
-    FROM update_price
-)
-UPDATE update_price
-SET id = sorted.new_id
-FROM sorted
-WHERE update_price.id = sorted.id;
 
+
+
+
+
+
+
+
+
+
+
+
+-- for training pivot table
 
 CREATE TABLE BMI (id_per BIGINT,
                 atribut_name text,
