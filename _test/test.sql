@@ -67,7 +67,10 @@ CREATE TABLE if not EXISTS update_price(id serial PRIMARY KEY,
 
 drop table update_price
 
-select*from update_price
+select count(distinct(njuskalo_id))
+from update_price
+
+select * from update_price
 
 
 select count(njuskalo_id), njuskalo_id, author, old_cijena, new_cijena
@@ -95,5 +98,39 @@ UPDATE update_price
 SET id = sorted.new_id
 FROM sorted
 WHERE update_price.id = sorted.id;
+
+
+CREATE TABLE BMI (id_per BIGINT,
+                atribut_name text,
+                value_atr_text text,
+                value_atr_float float,
+                value_atr_int int
+                )
+
+drop table BMI
+
+
+INSERT INTO BMI values (1, 'ime', 'Mario', NULL, NULL);
+INSERT INTO BMI values (1, 'prezime', 'Marić', NULL, NULL);
+INSERT INTO BMI values (1, 'godine', NULL, NULL, 34);
+INSERT INTO BMI values (1, 'tezina', NULL, 89.5, NULL);
+INSERT INTO BMI values (1, 'visina', NULL, 172.3, NULL);
+
+INSERT INTO BMI values (2, 'ime', 'Ivana', NULL, NULL);
+INSERT INTO BMI values (2, 'prezime', 'Horvat', NULL, NULL);
+INSERT INTO BMI values (2, 'godine', NULL, NULL, 28);
+INSERT INTO BMI values (2, 'tezina', NULL, 65.2, NULL);
+INSERT INTO BMI values (2, 'visina', NULL, 168.7, NULL);
+
+INSERT INTO BMI values (3, 'ime', 'Marko', NULL, NULL);
+INSERT INTO BMI values (3, 'prezime', 'Kovač', NULL, NULL);
+INSERT INTO BMI values (3, 'godine', NULL, NULL, 40);
+INSERT INTO BMI values (3, 'tezina', NULL, 92.8, NULL);
+INSERT INTO BMI values (3, 'visina', NULL, 180.5, NULL);
+
+
+
+
+select * from BMI
 
 
