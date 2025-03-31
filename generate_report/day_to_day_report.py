@@ -2,17 +2,21 @@ import sys
 import os
 import pandas as pd
 
-from psycopg2.extras import RealDictCursor  
+from psycopg2.extras import RealDictCursor 
+
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from func.my_library_function import dest_db
+from func.my_library_function import update_insert_into_dest_base
+
+from datetime import datetime
 
 cursor=dest_db(cursor_factory_param=RealDictCursor)
 
 
 data_storage = {}
-COUNT_OF_APARTMENTS_BY_AGENCIES="count_of_apartaments_by_agencies"
+COUNT_OF_APARTMENTS_BY_AGENCIES="count_of_apartments_by_agencies"
 COUNT_OF_APARTMENTS_BY_PRIVATE_SELLER = "count_of_apartments_by_private_seller"
 MEDIAN_PRICE_OF_APARTMENTS_BY_AGENCIES = "median_price_of_apartment_by_agencies"
 MEDIAN_PRICE_OF_APARTMENTS_BY_PRIVATE_SELLER = "median_price_of_apartment_by_private_seller"
@@ -28,6 +32,11 @@ COUNT_OF_ENERGY_CLASS_D = "count_of_energy_class_d"
 COUNT_OF_ENERGY_CLASS_E = "count_of_energy_class_e"
 COUNT_OF_ENERGY_CLASS_F = "count_of_energy_class_f"
 COUNT_OF_ENERGY_CLASS_G = "count_of_energy_class_g"
+COUNT_OF_UPDATE_PRICE_PER_DAY = "count_of_update_price_per_day"
+COUNT_OF_UPDATE_PRICE_INCREASE_PER_DAY = "count_of_update_price_increase_per_day"
+COUNT_OF_UPDATE_PRICE_DECREASE_PER_DAY = "count_of_update_price_decrease_per_day"
+
+
 
 query_for_agencies="""SELECT *
 FROM zagreb_app z
@@ -124,4 +133,75 @@ data_storage[COUNT_OF_ENERGY_CLASS_G] = int(count_g)
 
 
 
-print(data_storage)
+query_for_update_price = 'SELECT * FROM update_price'
+
+cursor.execute(query_for_update_price)
+result_update_price_set = cursor.fetchall()
+
+df_update_price_zg = pd.DataFrame(data=result_update_price_set)
+
+data_storage[COUNT_OF_UPDATE_PRICE_PER_DAY] = int(df_update_price_zg['id'].count())
+
+filtered_data_price_increase = df_update_price_zg[(df_update_price_zg['old_cijena']) < (df_update_price_zg['new_cijena'])]
+filtered_data_price_decrease = df_update_price_zg[(df_update_price_zg['old_cijena']) > (df_update_price_zg['new_cijena'])]
+
+data_storage[COUNT_OF_UPDATE_PRICE_INCREASE_PER_DAY] = int(filtered_data_price_increase['id'].count())
+data_storage[COUNT_OF_UPDATE_PRICE_DECREASE_PER_DAY] = int(filtered_data_price_decrease['id'].count())
+
+data_storage
+#print(data_storage)
+
+
+
+
+
+data_storage['date_of_reporting'] = datetime.today().strftime('%Y-%m-%d')
+
+insert_que = '''INSERT INTO day_to_day_report (
+                date_of_reporting,
+                count_of_apartments_by_agencies,
+                count_of_apartments_by_private_seller,
+                median_price_of_apartment_by_agencies,
+                median_price_of_apartment_by_private_seller,
+                median_price_for_apartments_0_to_40_m2_zg,
+                median_price_for_apartments_40_to_80_m2_zg,
+                median_price_for_apartments_120_to_more_m2_zg,
+                count_of_energy_class_a_plus,
+                count_of_energy_class_a,
+                count_of_energy_class_b,
+                count_of_energy_class_c,
+                count_of_energy_class_d,
+                count_of_energy_class_e,
+                count_of_energy_class_f,
+                count_of_energy_class_g,
+                count_of_update_price_per_day,
+                count_of_update_price_increase_per_day,
+                count_of_update_price_decrease_per_day
+          ) VALUES ('{}', {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {});'''
+
+data = (
+    data_storage['date_of_reporting'],  
+    data_storage['count_of_apartments_by_agencies'],  
+    data_storage['count_of_apartments_by_private_seller'],  
+    data_storage['median_price_of_apartment_by_agencies'],  
+    data_storage['median_price_of_apartment_by_private_seller'],  
+    data_storage['median_price_for_apartments_0_to_40_m2_zg'],  
+    data_storage['median_price_for_apartments_40_to_80_m2_zg'],  
+    data_storage['median_price_for_apartments_120_to_more_m2_zg'],  
+    data_storage['count_of_energy_class_a_plus'],  
+    data_storage['count_of_energy_class_a'],  
+    data_storage['count_of_energy_class_b'],  
+    data_storage['count_of_energy_class_c'],  
+    data_storage['count_of_energy_class_d'],  
+    data_storage['count_of_energy_class_e'],  
+    data_storage['count_of_energy_class_f'],  
+    data_storage['count_of_energy_class_g'],  
+    data_storage['count_of_update_price_per_day'],  
+    data_storage['count_of_update_price_increase_per_day'],  
+    data_storage['count_of_update_price_decrease_per_day']
+)
+
+formatted_que = insert_que.format(*data)
+
+
+update_insert_into_dest_base(formatted_que)
