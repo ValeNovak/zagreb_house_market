@@ -1,21 +1,8 @@
-SELECT * FROM zagreb_app
+select * from zagreb_app
 
-
-SELECT ROUND(AVG("Cijena" / "Netto povrsina")::numeric, 2)
-FROM zagreb_app
-
-SELECT ROUND(AVG("Cijena")::numeric, 2)
-FROM zagreb_app
-
-SELECT ROUND(AVG("Netto povrsina")::numeric, 2)
-FROM zagreb_app
-
-SELECT *
-from update_price
-where old_cijena > new_cijena
-
-
-
+-- zagreb_app table test
+select count(njuskalo_id) 
+from zagreb_app
 
 
 select* --- TEST QUERY FOR AGENCY
@@ -72,4 +59,8 @@ and LEFT(author, 1) != UPPER(LEFT(author, 1))
 select AVG('Cijena')
 from zagreb_app
 where 'Stambena povrsina' > 120
+
+
+
+
 

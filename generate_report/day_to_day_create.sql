@@ -21,9 +21,8 @@ CREATE TABLE day_to_day_report (
         count_of_update_price_decrease_per_day int
 )
 
-UPDATE day_to_day_report
-set Date_of_reporting = '2025-03-27'
-where id =2
 
 select*from day_to_day_report
+
+
 
