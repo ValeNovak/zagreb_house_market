@@ -1,6 +1,6 @@
 import psycopg2
 import os
-from dotenv import load_dotenv, dotenv_values 
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -65,7 +65,7 @@ def track_price_update(row, existrow):
         today = datetime.now()
 
         insert_query = f'''
-        INSERT INTO update_price (njuskalo_id, author, old_cijena, new_cijena, datum_promjene)
+        INSERT INTO update_price (njuskalo_id, author, old_price, new_price, date_of_up)
         VALUES ({row['njuskalo_id']}, '{row["author"]}', {old_price}, {new_price}, '{today}')
         '''
         update_insert_into_dest_base(insert_query)
@@ -78,6 +78,7 @@ def track_price_update(row, existrow):
 def update_insert_table_with_latest_data(getlatestdatafunc,towhichbase,fromwhichbase):  # Loop through the latest data to insert or update
 
     for row in getlatestdatafunc: # Check if the record already exists in the target table
+    
         towhichbase.execute("SELECT * FROM zagreb_app WHERE njuskalo_id=%s AND author=%s", (row['njuskalo_id'], row['author']))
         existrow = towhichbase.fetchone() # Check if the record already exists in the target table
         
