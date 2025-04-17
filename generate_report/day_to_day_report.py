@@ -151,8 +151,8 @@ df_update_price_zg = pd.DataFrame(data=result_update_price_set)
 if not df_update_price_zg.empty:
     data_storage[COUNT_OF_UPDATE_PRICE_PER_DAY] = len(df_update_price_zg)
 
-    filtered_data_price_increase = df_update_price_zg[df_update_price_zg['Old_price'] < df_update_price_zg['New_price']]
-    filtered_data_price_decrease = df_update_price_zg[df_update_price_zg['Old_price'] > df_update_price_zg['New_price']]
+    filtered_data_price_increase = df_update_price_zg[df_update_price_zg['old_price'] < df_update_price_zg['new_price']]
+    filtered_data_price_decrease = df_update_price_zg[df_update_price_zg['old_price'] > df_update_price_zg['new_price']]
 
     data_storage[COUNT_OF_UPDATE_PRICE_INCREASE_PER_DAY] = int(filtered_data_price_increase['id'].count())
     data_storage[COUNT_OF_UPDATE_PRICE_DECREASE_PER_DAY] = int(filtered_data_price_decrease['id'].count())
