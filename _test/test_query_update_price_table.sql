@@ -8,8 +8,8 @@ from update_price
 
 
 
-select u.njuskalo_id, u.author, u.old_cijena, u.new_cijena, z."Stambena povrsina", old_cijena-new_cijena as razlika
+select u.njuskalo_id, u.author, u.old_price, u.new_price, z."Stambena povrsina", old_price-new_price as razlika
 from update_price u
 join zagreb_app z on u.njuskalo_id = z.njuskalo_id
-where old_cijena > new_cijena and "Stambena povrsina" > 45.0
-and new_cijena < 200000
+where old_price > new_price and "Stambena povrsina" > 45.0
+and new_price < 200000
