@@ -77,10 +77,11 @@ In the new folder called [generate_report](generate_report) I started generating
 
 I recently completed studying the fundamentals of statistics from several books, and I’m now transitioning what I’ve learned into Python practice. This week, I focused on applying statistical concepts by creating various plots and visualizations. Below, I’m highlighting one of the graphs I worked on.
 
-Here is a link to my notebook: [test_statistic](_test\test_statistic.ipynb)
+Here is a link to my notebook: [test_statistic](https://github.com/ValeNovak/zagreb_house_market/blob/main/_test/test_statistic.ipynb)
 
 Here is one of visualization:
-![medianprice](img\Median price by neighborhood - private and agency.png)
+
+![medianprice](https://github.com/ValeNovak/zagreb_house_market/blob/main/img/Median%20price%20by%20neighborhood%20-%20private%20and%20agency.png)
 
 
 # CONCLUSION
