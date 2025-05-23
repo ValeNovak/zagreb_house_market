@@ -61,6 +61,39 @@ from zagreb_app
 where 'Stambena povrsina' > 120
 
 
+SELECT 
+    "author",
+    "Naslov",
+    "Lokacija",
+    "Stambena povrsina",
+    "Broj soba",
+    "Kat",
+    "Godina izgradnje",
+    "Tip stana",
+    COUNT(*) AS broj_ponavljanja
+FROM zagreb_app
+GROUP BY 
+    "author",
+    "Naslov",
+    "Lokacija",
+    "Stambena povrsina",
+    "Broj soba",
+    "Kat",
+    "Godina izgradnje",
+    "Tip stana"
+HAVING COUNT(*) > 1
+ORDER BY broj_ponavljanja DESC;
+
+
+SELECT *
+FROM zagreb_app
+WHERE "Stambena povrsina" = (
+    SELECT MAX("Stambena povrsina")
+    FROM zagreb_app
+);
+
+
+
 
 
 
