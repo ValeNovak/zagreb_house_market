@@ -73,6 +73,15 @@ All the functions that I have done you can see in my script. [Link to my script]
 
 In the new folder called [generate_report](generate_report) I started generating daily reports based on apartment data in Zagreb. The goal is to create a table with data that interests me, which would be generated daily so I can track changes in the data, such as the median apartment prices per square meter, the number of ads posted by agencies, the number of ads posted by private users, and so on. I am currently testing it in Jupyter Notebook using the pandas library. The goal with this data is to later perform analyses and eventually include it in Power BI for more advanced insights.
 
+# PRACTICE IN STATISTICS
+
+I recently completed studying the fundamentals of statistics from several books, and I’m now transitioning what I’ve learned into Python practice. This week, I focused on applying statistical concepts by creating various plots and visualizations. Below, I’m highlighting one of the graphs I worked on.
+
+Here is a link to my notebook: [test_statistic](_test\test_statistic.ipynb)
+
+Here is one of visualization:
+![medianprice](img\Median price by neighborhood - private and agency.png)
+
 
 # CONCLUSION
 
